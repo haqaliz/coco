@@ -1,0 +1,17 @@
+{
+  "name": "coco",
+  "module": "index.ts",
+  "type": "module",
+  "bin": {
+    "coco": "./index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "openai": "^5.1.0"
+  }
+}
