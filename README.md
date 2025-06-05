@@ -42,7 +42,13 @@ Run the CLI by passing a JSON file of sections:
 bun run index.ts ./script.json --voice=shimmer --format=wav
 ```
 
-### Example `script.json`:
+You can also install and use it globally (see [Global CLI](#-global-cli-coco-command)).
+
+---
+
+## 📄 Input File Format
+
+Provide a `.json` file containing an array of objects with `name` and `content`:
 
 ```json
 [
@@ -62,13 +68,31 @@ This will generate:
 - `intro.wav`
 - `outro.wav`
 
-Each section in the JSON file is processed into its own audio file using the provided `name` as the filename.
+Each section is converted into a separate audio file using the specified format and voice.
+
+---
+
+## ✍️ Custom Instructions
+
+You can provide custom voice instructions in two ways:
+
+### ✅ As a plain string:
+```bash
+coco script.json --instructions="Make it sound dramatic and slow."
+```
+
+### ✅ From a `.txt` file:
+```bash
+coco script.json --instructions=instructions.txt
+```
+
+If no `--instructions` is given, a warm, magical storytelling default will be used.
 
 ---
 
 ## 🔗 Global CLI (`coco` command)
 
-You can make `coco` globally available in your terminal for easier use.
+You can make `coco` globally available in your terminal.
 
 ### 1. Add a shebang to the top of `index.ts`:
 
@@ -97,18 +121,38 @@ ln -s $PWD/coco ~/.bun/bin/coco
 Now you can run it anywhere like:
 
 ```bash
-coco ./script.json --voice=shimmer --format=wav
+coco script.json --voice=shimmer --format=mp3
 ```
 
 ---
 
 ## 🧰 CLI Options
 
-| Option       | Default             | Description                             |
-|--------------|---------------------|-----------------------------------------|
-| `--voice`    | `nova`              | Voice to use (`nova`, `shimmer`, etc.)  |
-| `--model`    | `gpt-4o-mini-tts`   | Model to use                            |
-| `--format`   | `mp3`               | Output audio format (`mp3`, `wav`, etc) |
+| Option           | Type     | Default             | Description                                                                 |
+|------------------|----------|---------------------|-----------------------------------------------------------------------------|
+| `<jsonFile>`     | `string` | *(required)*        | Path to JSON file containing section objects (`name` + `content`)           |
+| `--voice`        | `string` | `"nova"`            | Voice style (e.g., `nova`, `shimmer`, `echo`, etc.)                         |
+| `--model`        | `string` | `"gpt-4o-mini-tts"` | OpenAI model to use for speech generation                                  |
+| `--format`       | `string` | `"mp3"`             | Audio output format (`mp3`, `wav`, or `pcm`)                                |
+| `--instructions` | `string` | *(optional)*        | Text style instructions (inline string or path to `.txt` file)             |
+
+Use `--help` to view available options anytime:
+
+```bash
+coco --help
+```
+
+---
+
+## 🧪 Example
+
+```bash
+coco script.json \
+  --voice=shimmer \
+  --model=gpt-4o-mini-tts \
+  --format=wav \
+  --instructions=instructions.txt
+```
 
 ---
 
